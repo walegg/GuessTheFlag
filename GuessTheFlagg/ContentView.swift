@@ -18,33 +18,45 @@ struct ContentView: View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue, .purple] ), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
-            
-            VStack(spacing: 30) {
+            VStack {
+                Text("Guess the flag 🥳")
+                    .font(.largeTitle.weight(.bold))
+                    .foregroundColor(.white)
                 
-                VStack {
-                    Text("Tap the flag of:")
-                        .font(.subheadline.weight(.heavy))
-                    Text(countries[correctAnswer])
-                        .font(.largeTitle.weight(.semibold))
-                }
-                .foregroundColor(.white)
+                Spacer()
                 
-                ForEach(0..<3) { number in
-                    Button {
-                        flagTapped(number)
-                    } label: {
-                        Image(countries[number])
-                            .renderingMode(.original)
-                            //.clipShape(Capsule())
-                            .shadow(radius: 5)
+                VStack(spacing: 30) {
+                    
+                    VStack {
+                        Text("Tap the flag of:")
+                            .font(.subheadline.weight(.heavy))
+                        Text(countries[correctAnswer])
+                            .font(.largeTitle.weight(.semibold))
                     }
-                }
-                
-                VStack {
+                    .foregroundColor(.white)
+                    
+                    ForEach(0..<3) { number in
+                        Button {
+                            flagTapped(number)
+                        } label: {
+                            Image(countries[number])
+                                .renderingMode(.original)
+                                //.clipShape(Capsule())
+                                .shadow(radius: 5)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                    .background(.regularMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
                     Text("Score: \(currentScore)")
                         .foregroundColor(.white)
                         .font(.largeTitle.weight(.semibold))
+                    
+                    Spacer()
                 }
+                .padding()
             }
             
         }
