@@ -17,11 +17,29 @@ struct ContentView: View {
     @State private var totalQuestion = 9
     @State private var resetGame = false
     
+    var FlagImage: some View {
+        ForEach(0..<3) { number in
+            Button {
+                flagTapped(number)
+            } label: {
+                Image(countries[number])
+                    .renderingMode(.original)
+                //.clipShape(Capsule())
+                    .shadow(radius: 5)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+        .background(.regularMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+    
     
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue, .purple] ), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
+            
             VStack {
                 Text("Guess the flag 🥳")
                     .font(.largeTitle.weight(.bold))
@@ -40,25 +58,10 @@ struct ContentView: View {
                     }
                     .foregroundColor(.white)
                     
-                    
-                    ForEach(0..<3) { number in
-                        Button {
-                            flagTapped(number)
-                        } label: {
-                            Image(countries[number])
-                                .renderingMode(.original)
-                            //.clipShape(Capsule())
-                                .shadow(radius: 5)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 20)
-                    .background(.regularMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    FlagImage
                     
                     Text("Score: \(currentScore)")
-                        .foregroundColor(.white)
-                        .font(.largeTitle.weight(.semibold))
+                        .modifier(Title())
                     
                     Spacer()
                 }
@@ -73,7 +76,7 @@ struct ContentView: View {
                 }
         .alert(scoreTitle, isPresented: $resetGame) {
                     Button("Restart", action: askQuestion)
-                    }
+                }
     }
     
     func flagTapped(_ number: Int) {
@@ -103,6 +106,21 @@ struct ContentView: View {
     }
     
 
+}
+
+struct Title: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.yellow)
+            .fontWeight(.bold)
+            .font(.largeTitle)
+    }
+}
+
+extension View {
+    func titleStyle() -> some View {
+        modifier(Title())
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
