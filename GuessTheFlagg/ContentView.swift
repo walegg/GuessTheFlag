@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var currentScore = 0
     @State private var currentQuestion = 1
     @State private var totalQuestion = 9
-    @State private var resetGame = false
+    @State private var reset = false
     
     var FlagImage: some View {
         ForEach(0..<3) { number in
@@ -74,8 +74,10 @@ struct ContentView: View {
                 } message: {
                     Text("Your score is \(currentScore)")
                 }
-        .alert(scoreTitle, isPresented: $resetGame) {
-                    Button("Restart", action: askQuestion)
+        .alert(scoreTitle, isPresented: $reset) {
+                    Button("Restart", action: resetGame)
+                } message: {
+                    Text("Your final score is \(currentScore)")
                 }
     }
     
@@ -95,14 +97,19 @@ struct ContentView: View {
     func askQuestion () {
         if currentQuestion == 9 {
             scoreTitle = "No more questions"
-            currentQuestion = 0
-            currentScore = 0
-            resetGame = true
+            reset = true
         } else {
             countries.shuffle()
             correctAnswer = Int.random(in: 0...2)
         }
         
+    }
+    
+    func resetGame() {
+        if reset == true {
+            currentQuestion = 0
+            currentScore = 0
+        }
     }
     
 
