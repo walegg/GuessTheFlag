@@ -11,3 +11,7 @@ The game is a small quiz of 8 questions, for each question you have to find the 
 You have a score that tracks whether you answered well or not.
 After you answered the 8 questions, you get a final score and can try again.
 
+![Demo](https://github.com/walegg/GuessTheFlag/assets/108485713/a688c644-7608-4c5b-9bbb-b4ca781f0653)
+
+
+
