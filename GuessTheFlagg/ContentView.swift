@@ -16,16 +16,28 @@ struct ContentView: View {
     @State private var currentQuestion = 1
     @State private var totalQuestion = 9
     @State private var reset = false
+    @State private var animationCount = 0.0
+    @State private var tappedFlag = -1
+    @State private var opacityValue = 1.0
     
     var FlagImage: some View {
         ForEach(0..<3) { number in
             Button {
+                tappedFlag = number
                 flagTapped(number)
+                withAnimation {
+                    animationCount += 360
+                    opacityValue = 0.25
+                }
             } label: {
                 Image(countries[number])
                     .renderingMode(.original)
                 //.clipShape(Capsule())
                     .shadow(radius: 5)
+                    .rotation3DEffect(.degrees(tappedFlag == number ? animationCount: 0), axis: (x: 0, y: 1, z: 0))
+                    .opacity(tappedFlag == number ? 1 : opacityValue)
+                    .scaleEffect(tappedFlag == number ? 1 : opacityValue)
+                    .animation(.default, value: opacityValue)
             }
         }
         .frame(maxWidth: .infinity)
@@ -102,6 +114,7 @@ struct ContentView: View {
             countries.shuffle()
             correctAnswer = Int.random(in: 0...2)
         }
+        opacityValue = 1
         
     }
     
